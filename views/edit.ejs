@@ -1,0 +1,22 @@
+<%- include("partials/header")%>
+
+<h1>Edit Post</h1>
+<p>
+	<form action="/posts/<%=post._id%>?_method=PUT" method="POST">
+		
+  <div class="mb-3">
+  <label for="exampleFormControlInput1" class="form-label">Title</label>
+  <input type="text" name="title" class="form-control" id="exampleFormControlInput1" value="<%=post.title%> "required>
+  </div>
+
+  <div class="mb-3">
+  <label for="exampleFormControlTextarea1" class="form-label">Post</label>
+  <textarea class="form-control" name="text" id="exampleFormControlTextarea1" rows="6" required><%= post.content%></textarea>
+  </div>
+  <br>
+  <button type="submit" class="btn btn-primary" name="button">Modify</button>
+  <a href="/posts/<%= post._id%>">Back</a>
+	</form
+  
+</p>
+<%- include("partials/footer")%>

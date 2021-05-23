@@ -1,0 +1,81 @@
+<%- include("partials/header")%>
+		
+		<h1><%= post.title %>
+		 
+		 
+		 </h1>
+		<p><%= post.content %>
+	<br>
+	<strong>Author --> <%= post.author.username %> wrote on <%=post.date.slice(0,post.date.length-30)%></strong>
+	<% if(currentUser && post.author.equals(currentUser._id)) { %>
+	<form  action="/posts/<%=post._id %>?_method=DELETE" method="POST">
+			<button>delete </button>
+		<button><a href="/posts/<%= post._id%>/edit">Edit</a></button>
+	</form>
+	<% } %>
+</p>
+<% if(currentUser) { %>
+<hr>
+<form action="/posts/<%=post._id %>/reviews" method="POST" class="mb-3">
+	<div class="mb-3">
+		<label class="form-label" for="rating">What do you think ? </label>
+		
+	</div>
+	<div class="mb-3">
+		<label class="form-label" for="body"><b>Type in......</b></label>
+		<textarea class="form-control " name="review" id="body" oninput="auto_grow(this)"  required></textarea>
+
+   <div id="divOutside" class="divOutside">
+	</div>
+
+	<br>
+	<button class="btn btn-primary" type="submit">Shoot!</button>	
+<% } %>
+</form>
+<% for(let review of post.reviews) { %>
+	<div class="card mb-3">
+		<div class="card-body">
+		<h4 class="card-title"><strong>Reply by <%= review.author.username %> --> </strong> </h4><p class="card-text"><%= review.body %></p>
+		<% if(currentUser && review.author.equals(currentUser._id)) { %>
+		<form method="POST" action="/posts/<%=post._id %>/reviews/<%=review._id %>?_method=DELETE" >
+			<button>delete </button>
+		</form>
+		<% } %>
+		</div>
+	</div>
+<% } %>
+<script type"javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type"javascript" src="https://rawgit.com/mervick/emojionearea/master/dist/emojionearea.js"></script>
+
+<script>
+	$(document).ready(function() {
+	$("#body").emojioneArea({
+  	
+		pickerPosition: "bottom",
+    	tonesStyle: "bullet",
+		events: {
+         	keyup: function (editor, event) {
+           		console.log(editor.html());
+           		console.log(this.getText());
+        	}
+    	}
+	});
+  
+     $('#divOutside').click(function () {
+                $('.emojionearea-button').click()
+            })
+
+  });
+
+</script>
+</div>
+</div>
+<script>
+	function auto_grow(textarea) {
+    textarea.style.height = "5px";
+    textarea.style.height = (textarea.scrollHeight)+"px";
+	}
+
+ </script>
+</body>
+</html>
